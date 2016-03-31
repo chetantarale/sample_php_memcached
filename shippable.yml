@@ -11,6 +11,7 @@ services:
 before_script: 
   - currentLocation="$PWD"
   - sudo apt-get install -y php-memcached
+  - /etc/init.d/memcached status
   - sudo apt-get install php7.0-dev
   - wget http://xdebug.org/files/xdebug-2.4.0rc2.tgz
   - tar -xzf xdebug-2.4.0rc2.tgz
