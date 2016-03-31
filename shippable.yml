@@ -29,7 +29,7 @@ before_script:
   - sudo service php7.0-fpm restart
   - service mysql.server start
   - mkdir -p shippable/testresults
-  - mkdir -p shippable/codecoverage'
+  - mkdir -p shippable/codecoverage
   - wget https://phar.phpunit.de/phpunit.phar
   - chmod +x phpunit.phar
   - sudo mv phpunit.phar /usr/local/bin/phpunit
