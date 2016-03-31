@@ -10,8 +10,6 @@ services:
 
 before_script: 
   - currentLocation="$PWD"
-  - sudo apt-get install -y php-memcached
-  - /etc/init.d/memcached status
   - sudo apt-get install php7.0-dev
   - wget http://xdebug.org/files/xdebug-2.4.0rc2.tgz
   - tar -xzf xdebug-2.4.0rc2.tgz
@@ -29,6 +27,15 @@ before_script:
   #RESTART 
   - sudo service php7.0-fpm restart
   - service mysql.server start
+  - sudo apt-get install -y php7.0-dev git pkg-config build-essential libmemcached-dev
+  - cd ~
+  - git clone https://github.com/php-memcached-dev/php-memcached.git
+  - cd php-memcached
+  - git checkout php7
+  - phpize
+  - ./configure --disable-memcached-sasl
+  - make
+  - sudo make install
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
   - wget https://phar.phpunit.de/phpunit.phar
