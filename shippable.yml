@@ -1,19 +1,40 @@
-build_image: chetantarale/u12phppls:v23
+build_image: chetantarale/u14php7pls:tip
 
-language: 
-  - php
+language: php
 
 php: 
-  - 5.6
   - '7.0'
 
 services:
   - memcached
 
 before_script: 
+  - currentLocation="$PWD"
+  - sudo apt-get install -y php-memcached
+  - sudo apt-get install php7.0-dev
+  - wget http://xdebug.org/files/xdebug-2.4.0rc2.tgz
+  - tar -xzf xdebug-2.4.0rc2.tgz
+  - cd xdebug-2.4.0RC2/
+  - phpize
+  - ./configure --enable-xdebug
+  - make
+  - sudo cp modules/xdebug.so /usr/lib/.
+  #FOR FPM
+  - sudo echo 'zend_extension="/usr/lib/xdebug.so"' > /etc/php/7.0/fpm/conf.d/20-xdebug.ini 
+  - sudo echo 'xdebug.remote_enable=1' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini 
+  #FOR CLI
+  - sudo echo 'zend_extension="/usr/lib/xdebug.so"' > /etc/php/7.0/cli/conf.d/20-xdebug.ini 
+  - sudo echo 'xdebug.remote_enable=1' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+  #RESTART 
+  - sudo service php7.0-fpm restart
+  - service mysql.server start
   - mkdir -p shippable/testresults
-  - mkdir -p shippable/codecoverage
-  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - mkdir -p shippable/codecoverage'
+  - wget https://phar.phpunit.de/phpunit.phar
+  - chmod +x phpunit.phar
+  - sudo mv phpunit.phar /usr/local/bin/phpunit
+  - phpunit --version
+  - cd "$currentLocation"
 
 script:
   - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/MemcachedExampleTest.php
