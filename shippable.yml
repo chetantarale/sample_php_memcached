@@ -36,6 +36,7 @@ before_script:
   - ./configure --disable-memcached-sasl
   - make
   - sudo make install
+  - sudo service php7.0-fpm restart
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
   - wget https://phar.phpunit.de/phpunit.phar
