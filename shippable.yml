@@ -12,6 +12,8 @@ services:
 
 before_script: 
   - currentLocation="$PWD"
+  - apt-get install memcached
+  - /etc/init.d/memcached status
   - sudo service redis-server restart
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
