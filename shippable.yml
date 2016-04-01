@@ -1,4 +1,4 @@
-build_image: chetantarale/u12phppls:v23
+build_image: chetantarale/u14php7pls:testext1
 
 language: 
   - php
@@ -11,9 +11,14 @@ services:
   - memcached
 
 before_script: 
+  - currentLocation="$PWD"
+  - sudo service redis-server restart
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
-  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
+  - wget https://phar.phpunit.de/phpunit.phar
+  - chmod +x phpunit.phar
+  - sudo mv phpunit.phar /usr/local/bin/phpunit
+  - phpunit --version
+  - cd "$currentLocation"
 script:
   - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/MemcachedExampleTest.php
