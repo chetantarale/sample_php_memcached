@@ -15,11 +15,8 @@ before_script:
   - /etc/init.d/memcached start
   - /etc/init.d/memcached status
   - find / -name memcached.so
-  - find / -name memcached.ini
+  - find / -name php.ini
   - echo "extension=memcached.so" > /etc/php/7.0/mods-available/memcached.ini
-  - sudo ln -s /etc/php/mods-available/memcached.ini /etc/php/7.0/fpm/conf.d/20-memcached.ini
-  - sudo ln -s /etc/php/mods-available/memcached.ini /etc/php/7.0/cli/conf.d/20-memcached.ini
-  # Reload php-fpm to include the new changes
   - sudo service php7.0-fpm restart
   - sudo service redis-server restart
   - mkdir -p shippable/testresults
