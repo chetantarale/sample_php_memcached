@@ -1,4 +1,4 @@
-build_image: chetantarale/u14php7pls:testext1
+build_image: chetantarale/u14php7pls:tip1
 
 language: 
   - php
@@ -15,11 +15,6 @@ before_script:
   - /etc/init.d/memcached start
   - /etc/init.d/memcached status
   - find / -name memcached.so
-  - find / -name php.ini
-  - echo "extension=memcached.so" > /etc/php/7.0/cli/php.ini
-  - echo "extension=memcached.so" > /etc/php/7.0/fpm/php.ini
-  - sudo service php7.0-fpm restart
-  - sudo service redis-server restart
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
   - wget https://phar.phpunit.de/phpunit.phar
