@@ -16,10 +16,6 @@ before_script:
   - find / -name memcached.so
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
-  - wget https://phar.phpunit.de/phpunit.phar
-  - chmod +x phpunit.phar
-  - sudo mv phpunit.phar /usr/local/bin/phpunit
-  - phpunit --version
   - cd "$currentLocation"
 
 script:
