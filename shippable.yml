@@ -9,13 +9,9 @@ php:
 services:
   - memcached
 
-before_script: 
-  - currentLocation="$PWD"
-  - sudo su -c "/usr/local/bin/memcached -d -u nobody -vvv -l 127.0.0.1 -p 11211 &>> /var/log/memcached.log"
-  - find / -name memcached.so
-  - mkdir -p shippable/testresults
-  - mkdir -p shippable/codecoverage
-  - cd "$currentLocation"
-
-script:
-  - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/MemcachedExampleTest.php
+build:
+  ci:
+    - sudo su -c "/usr/local/bin/memcached -d -u nobody -vvv -l 127.0.0.1 -p 11211 &>> /var/log/memcached.log"
+    - mkdir -p shippable/testresults
+    - mkdir -p shippable/codecoverage
+    - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/MemcachedExampleTest.php
