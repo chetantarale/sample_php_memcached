@@ -1,3 +1,5 @@
+build_image: drydock/u14php7pls:tip
+
 language: 
   - php
 
