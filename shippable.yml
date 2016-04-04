@@ -8,12 +8,17 @@ services:
   - memcached
 
 before_script: 
-  #- apt-get install memcached
-  #- /etc/init.d/memcached start
-  #- /etc/init.d/memcached status
-  #- find / -name memcached.so
+  - currentLocation="$PWD"
+  - apt-get install memcached
+  - sudo su -c "/usr/local/bin/memcached -d -u nobody -vvv -l 127.0.0.1 -p 11211 &>> /var/log/memcached.log"
+  - find / -name memcached.so
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
+  - wget https://phar.phpunit.de/phpunit.phar
+  - chmod +x phpunit.phar
+  - sudo mv phpunit.phar /usr/local/bin/phpunit
+  - phpunit --version
+  - cd "$currentLocation"
 
 script:
   - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/MemcachedExampleTest.php
